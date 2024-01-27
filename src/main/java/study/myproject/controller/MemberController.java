@@ -8,9 +8,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import study.myproject.domain.member.Member;
+import study.myproject.dto.memberdto.LoginDTO;
+import study.myproject.dto.memberdto.LoginSuccessDTO;
 import study.myproject.dto.memberdto.MemberDTO;
 import study.myproject.dto.memberdto.MemberRegisterDTO;
 import study.myproject.exception.DuplicationException;
+import study.myproject.exception.WrongIdException;
+import study.myproject.exception.WrongPasswordException;
 import study.myproject.service.MemberService;
 
 import static study.myproject.domain.member.Member.*;
@@ -39,6 +43,16 @@ public class MemberController {
 
         } catch (DuplicationException e) {
             return ResponseEntity.badRequest().body("회원 가입 실패 -> " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/members/login")
+    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+        try {
+            LoginSuccessDTO login = memberService.login(loginDTO.getLoginId(), loginDTO.getPassword());
+            return ResponseEntity.status(HttpStatus.OK).body(login.toString());
+        } catch (WrongIdException | WrongPasswordException e) {
+            return ResponseEntity.badRequest().body("로그인 실패 -> " + e.getMessage());
         }
     }
 
