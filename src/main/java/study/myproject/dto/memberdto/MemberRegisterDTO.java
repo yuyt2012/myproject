@@ -17,6 +17,7 @@ public class MemberRegisterDTO {
     private String password;
     @NotEmpty(message = "이름을 입력해야 합니다.")
     private String username;
+    private String role;
     private int age;
     private String city;
     private String street;

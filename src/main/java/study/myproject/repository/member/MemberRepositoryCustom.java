@@ -4,9 +4,9 @@ import study.myproject.dto.memberdto.LoginDTO;
 import study.myproject.dto.memberdto.MemberDTO;
 import study.myproject.dto.memberdto.MemberRegisterDTO;
 
+import java.util.Optional;
+
 public interface MemberRepositoryCustom {
 
-    MemberDTO findByLoginId(String loginId);
-
-    LoginDTO findByLoginID(String loginId);
+    Boolean existByLoginId(String loginId);
 }

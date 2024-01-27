@@ -8,6 +8,8 @@ import study.myproject.dto.memberdto.LoginDTO;
 import study.myproject.dto.memberdto.MemberDTO;
 import study.myproject.dto.memberdto.MemberRegisterDTO;
 
+import java.util.Optional;
+
 import static study.myproject.domain.member.QMember.*;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
@@ -19,22 +21,12 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public MemberDTO findByLoginId(String loginId) {
+    public Boolean existByLoginId(String loginId) {
         Member findMember = queryFactory
                 .select(member)
                 .where(member.loginId.eq(loginId))
                 .from(member)
                 .fetchOne();
-        return MemberDTO.convertToMemberDTO(findMember);
-    }
-
-    @Override
-    public LoginDTO findByLoginID(String loginId) {
-        Member findMember = queryFactory
-                .select(member)
-                .where(member.loginId.eq(loginId))
-                .from(member)
-                .fetchOne();
-        return LoginDTO.convertToLoginDTO(findMember);
+        return findMember != null;
     }
 }
