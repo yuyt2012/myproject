@@ -43,17 +43,17 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
-        try {
-            // 로그인 성공 시의 추가적인 로직
-            memberService.login(loginDTO);
-            return ResponseEntity.status(HttpStatus.OK).body("ok");
-        } catch (WrongIdException | WrongPasswordException e) {
-            // 로그인 실패 시의 추가적인 로직
-            return ResponseEntity.badRequest().body("로그인 실패 -> " + e.getMessage());
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+//        try {
+//            // 로그인 성공 시의 추가적인 로직
+//            memberService.login(loginDTO);
+//            return ResponseEntity.status(HttpStatus.OK).body("ok");
+//        } catch (WrongIdException | WrongPasswordException e) {
+//            // 로그인 실패 시의 추가적인 로직
+//            return ResponseEntity.badRequest().body("로그인 실패 -> " + e.getMessage());
+//        }
+//    }
 
     @GetMapping("/find/{loginId}")
     public ResponseEntity<Object> findMemberByLoginId(@PathVariable String loginId) {
