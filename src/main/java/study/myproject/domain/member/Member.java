@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString(of = {"loginId"})
 public class Member {
 
     @Id

@@ -37,8 +37,7 @@ public class MemberService {
     //회원찾기
     @Transactional(readOnly = true)
     public MemberDTO findByLoginId(String loginId) {
-        Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(NotExistMemberException::new);
+        Member member = memberRepository.findByLoginId(loginId);
         return new MemberDTO(member.getLoginId(), member.getPrivacyInfo().getUsername(), member.getPrivacyInfo().getAge());
     }
 
