@@ -7,27 +7,27 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
-@ToString(of = {"username"})
+@ToString(of = {"loginId"})
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
-    private String username;
+    private String loginId;
     private String password;
     private String role;
 
     @Embedded
     private PrivacyInfo privacyInfo;
 
-    public Member(String username, String password) {
-        this.username = username;
+    public Member(String loginId, String password) {
+        this.loginId = loginId;
         this.password = password;
     }
 
-    public Member(String username, String password, String role, PrivacyInfo privacyInfo) {
-        this.username = username;
+    public Member(String loginId, String password, String role, PrivacyInfo privacyInfo) {
+        this.loginId = loginId;
         this.password = password;
         this.role = role;
         this.privacyInfo = privacyInfo;

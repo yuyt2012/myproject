@@ -1,6 +1,5 @@
 package study.myproject.service;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,25 +21,26 @@ public class MemberService {
 
     //회원가입 하는 서비스 로직
     public Member save(MemberRegisterDTO memberRegisterDTO) {
-        if (!checkLoginId(memberRegisterDTO.getUsername())) {
-            Member member = new Member(memberRegisterDTO.getUsername(), bCryptPasswordEncoder.encode(memberRegisterDTO.getPassword()),
-                    memberRegisterDTO.getRole(), new PrivacyInfo(memberRegisterDTO.getName(),
+        if (!checkLoginId(memberRegisterDTO.getLoginId())) {
+            Member member = new Member(memberRegisterDTO.getLoginId(), bCryptPasswordEncoder.encode(memberRegisterDTO.getPassword()),
+                    memberRegisterDTO.getRole(), new PrivacyInfo(memberRegisterDTO.getUsername(),
                     memberRegisterDTO.getAge(), memberRegisterDTO.getCity(), memberRegisterDTO.getStreet(), memberRegisterDTO.getZipcode()));
             return memberRepository.save(member);
         } else {
-            throw new DuplicationException(memberRegisterDTO.getUsername());
+            throw new DuplicationException(memberRegisterDTO.getLoginId());
         }
     }
 
     //회원찾기
     @Transactional(readOnly = true)
-    public MemberDTO findByLoginId(String username) {
-        Member member = memberRepository.findByUsername(username);
-        return new MemberDTO(member.getUsername(), member.getPrivacyInfo().getName(), member.getPrivacyInfo().getAge());
+    public MemberDTO findByLoginId(String loginId) {
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(NotExistMemberException::new);
+        return new MemberDTO(member.getLoginId(), member.getPrivacyInfo().getUsername(), member.getPrivacyInfo().getAge());
     }
 
     //아이디 중복 검사
-    private Boolean checkLoginId(String username) {
-        return memberRepository.existsMemberByUsername(username);
+    private Boolean checkLoginId(String loginId) {
+        return memberRepository.existsMemberByLoginId(loginId);
     }
 }

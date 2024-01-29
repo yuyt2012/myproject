@@ -13,6 +13,7 @@ import study.myproject.dto.memberdto.MemberDTO;
 import study.myproject.dto.memberdto.MemberRegisterDTO;
 import study.myproject.exception.*;
 import study.myproject.service.MemberService;
+import study.myproject.service.security.CustomUserDetailsService;
 
 import static study.myproject.domain.member.Member.*;
 
@@ -46,7 +47,7 @@ public class MemberController {
 //    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
 //        try {
 //            // 로그인 성공 시의 추가적인 로직
-//            memberService.login(loginDTO);
+//            customUserDetailsService.loadUserByUsername(loginDTO.getLoginId());
 //            return ResponseEntity.status(HttpStatus.OK).body("ok");
 //        } catch (WrongIdException | WrongPasswordException e) {
 //            // 로그인 실패 시의 추가적인 로직
