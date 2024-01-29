@@ -13,7 +13,7 @@ import study.myproject.dto.memberdto.MemberRegisterDTO;
 @AllArgsConstructor
 public class PrivacyInfo {
 
-    private String username;
+    private String name;
     private int age;
     private String city;
     private String street;
@@ -21,7 +21,7 @@ public class PrivacyInfo {
 
     public static PrivacyInfo createPrivacyInfoFromDTO(MemberRegisterDTO memberRegisterDTO) {
         return new PrivacyInfo(
-                memberRegisterDTO.getUsername(),
+                memberRegisterDTO.getName(),
                 memberRegisterDTO.getAge(),
                 memberRegisterDTO.getCity(),
                 memberRegisterDTO.getStreet(),

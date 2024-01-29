@@ -18,13 +18,12 @@ import static study.myproject.domain.member.Member.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
 
     //회원 가입
-    @PostMapping("/new")
+    @PostMapping("/join")
     public ResponseEntity<String> joinMember(@RequestBody @Valid MemberRegisterDTO memberRegisterDTO, BindingResult result) {
         try {
             if (result.hasErrors()) {

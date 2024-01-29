@@ -12,7 +12,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class MemberDTO {
 
-    private String loginId;
     private String username;
+    private String name;
     private int age;
 }

@@ -12,6 +12,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class LoginDTO {
 
-    private String loginId;
+    private String username;
     private String password;
 }
