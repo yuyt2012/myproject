@@ -21,9 +21,10 @@ public class Member {
     @Embedded
     private PrivacyInfo privacyInfo;
 
-    public Member(String loginId, String password) {
+    public Member(String loginId, String password, String role) {
         this.loginId = loginId;
         this.password = password;
+        this.role = role;
     }
 
     public Member(String loginId, String password, String role, PrivacyInfo privacyInfo) {
