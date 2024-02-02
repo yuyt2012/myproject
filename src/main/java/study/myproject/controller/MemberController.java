@@ -8,14 +8,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import study.myproject.domain.member.Member;
-import study.myproject.dto.memberdto.LoginDTO;
 import study.myproject.dto.memberdto.MemberDTO;
 import study.myproject.dto.memberdto.MemberRegisterDTO;
 import study.myproject.exception.*;
 import study.myproject.service.MemberService;
-import study.myproject.service.security.CustomUserDetailsService;
 
-import static study.myproject.domain.member.Member.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +21,7 @@ public class MemberController {
     private final MemberService memberService;
 
     //회원 가입
-    @PostMapping("/join")
+    @PostMapping("members/join")
     public ResponseEntity<String> joinMember(@RequestBody @Valid MemberRegisterDTO memberRegisterDTO, BindingResult result) {
         try {
             if (result.hasErrors()) {
@@ -43,19 +40,7 @@ public class MemberController {
         }
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
-//        try {
-//            // 로그인 성공 시의 추가적인 로직
-//            customUserDetailsService.loadUserByUsername(loginDTO.getLoginId());
-//            return ResponseEntity.status(HttpStatus.OK).body("ok");
-//        } catch (WrongIdException | WrongPasswordException e) {
-//            // 로그인 실패 시의 추가적인 로직
-//            return ResponseEntity.badRequest().body("로그인 실패 -> " + e.getMessage());
-//        }
-//    }
-
-    @GetMapping("/find/{loginId}")
+    @GetMapping("members/find/{loginId}")
     public ResponseEntity<Object> findMemberByLoginId(@PathVariable String loginId) {
         try {
             MemberDTO findMember = memberService.findByLoginId(loginId);

@@ -48,15 +48,14 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/join", "/", "/members/login").permitAll()
-                        .requestMatchers("/find/**").authenticated()
+                        .requestMatchers("/members/join", "/", "/members/login").permitAll()
+                        .requestMatchers("/members/find/**").authenticated()
                         .anyRequest().authenticated());
-//        http
-//                .addFilterAt(new LoginFilter(authenticationManager(configuration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         LoginFilter loginFilter = new LoginFilter(authenticationManager(configuration), jwtUtil);
         loginFilter.setFilterProcessesUrl("/members/login");
+
         http
                 .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
         http
