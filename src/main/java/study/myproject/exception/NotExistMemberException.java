@@ -2,6 +2,6 @@ package study.myproject.exception;
 
 public class NotExistMemberException extends RuntimeException {
     public NotExistMemberException() {
-        super("존재하지 않는 회원입니다.");
+        super("회원이 존재 하지 않습니다.");
     }
 }

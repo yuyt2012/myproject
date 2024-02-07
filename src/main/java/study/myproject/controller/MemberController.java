@@ -2,6 +2,8 @@ package study.myproject.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -45,6 +47,17 @@ public class MemberController {
         try {
             MemberDTO findMember = memberService.findByLoginId(loginId);
             return ResponseEntity.status(HttpStatus.OK).body(findMember);
+        } catch (NotExistMemberException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
+
+    @GetMapping("members/find")
+    public ResponseEntity<Object> findMemberAll(Pageable pageable) {
+        try {
+            Page<MemberDTO> findMembers = memberService.findAll(pageable);
+            return ResponseEntity.status(HttpStatus.OK).body(findMembers);
         } catch (NotExistMemberException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
