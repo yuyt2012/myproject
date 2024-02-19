@@ -1,13 +1,18 @@
 package study.myproject.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import study.myproject.domain.order.Order;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Getter
-@ToString(of = {"loginId"})
 public class Member {
 
     @Id
@@ -16,21 +21,13 @@ public class Member {
     private Long id;
     private String loginId;
     private String password;
-    private String role;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
     @Embedded
     private PrivacyInfo privacyInfo;
-
-    public Member(String loginId, String password, String role) {
-        this.loginId = loginId;
-        this.password = password;
-        this.role = role;
-    }
-
-    public Member(String loginId, String password, String role, PrivacyInfo privacyInfo) {
-        this.loginId = loginId;
-        this.password = password;
-        this.role = role;
-        this.privacyInfo = privacyInfo;
-    }
 }

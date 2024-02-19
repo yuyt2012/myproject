@@ -1,35 +1,28 @@
 package study.myproject.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import study.myproject.jwt.JWTFilter;
-import study.myproject.jwt.JWTUtil;
-import study.myproject.security.LoginFilter;
+import study.myproject.config.jwt.JwtAccessDeniedHandler;
+import study.myproject.config.jwt.JwtAuthenticationEntryPoint;
+import study.myproject.config.jwt.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final AuthenticationConfiguration configuration;
-    private final JWTUtil jwtUtil;
-
-    public SecurityConfig(AuthenticationConfiguration configuration, JWTUtil jwtUtil) {
-        this.configuration = configuration;
-        this.jwtUtil = jwtUtil;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
+    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final CorsFilterConfig corsFilterConfig;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -40,28 +33,27 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf((auth) -> auth.disable());
+                .csrf(AbstractHttpConfigurer::disable);
         http
-                .formLogin((auth) -> auth.disable());
+                .formLogin(AbstractHttpConfigurer::disable);
         http
-                .httpBasic((auth) -> auth.disable());
-
+                .httpBasic(AbstractHttpConfigurer::disable);
+        http
+                .addFilterBefore(corsFilterConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class);
+        http
+                .exceptionHandling((auth) -> auth.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler));
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/members/join", "/", "/members/login").permitAll()
                         .requestMatchers("/members/find/**").authenticated()
+                        .requestMatchers("/members/findall").hasRole("ADMIN")
                         .anyRequest().authenticated());
-        http
-                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
-        LoginFilter loginFilter = new LoginFilter(authenticationManager(configuration), jwtUtil);
-        loginFilter.setFilterProcessesUrl("/members/login");
-
-        http
-                .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
         http
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+        http
+                .with(new JwtSecurityConfig(jwtTokenProvider), customizer -> {});
         return http.build();
     }
 }

@@ -4,14 +4,17 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import study.myproject.domain.member.Member;
+import study.myproject.dto.memberdto.LoginDTO;
 import study.myproject.dto.memberdto.MemberDTO;
 import study.myproject.dto.memberdto.MemberRegisterDTO;
+import study.myproject.dto.security.JwtToken;
 import study.myproject.exception.*;
 import study.myproject.service.MemberService;
 
@@ -42,6 +45,14 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/members/login")
+    public ResponseEntity<JwtToken> login(@RequestBody LoginDTO loginDTO) {
+        JwtToken login = memberService.login(loginDTO);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + login.getAccessToken());
+        return new ResponseEntity<>(login, headers, HttpStatus.OK);
+    }
+
     @GetMapping("members/find/{loginId}")
     public ResponseEntity<Object> findMemberByLoginId(@PathVariable String loginId) {
         try {
@@ -53,7 +64,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("members/find")
+    @GetMapping("members/findall")
     public ResponseEntity<Object> findMemberAll(Pageable pageable) {
         try {
             Page<MemberDTO> findMembers = memberService.findAll(pageable);

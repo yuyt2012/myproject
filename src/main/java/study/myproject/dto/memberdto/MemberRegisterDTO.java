@@ -3,10 +3,13 @@ package study.myproject.dto.memberdto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import study.myproject.domain.member.Authority;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberRegisterDTO {
@@ -17,7 +20,7 @@ public class MemberRegisterDTO {
     private String password;
     @NotEmpty(message = "이름을 입력해야 합니다.")
     private String username;
-    private String role;
+    private Authority authority;
     private int age;
     private String city;
     private String street;
