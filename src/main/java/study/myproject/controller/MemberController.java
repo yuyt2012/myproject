@@ -16,7 +16,7 @@ import study.myproject.dto.memberdto.MemberDTO;
 import study.myproject.dto.memberdto.MemberRegisterDTO;
 import study.myproject.dto.security.JwtToken;
 import study.myproject.exception.*;
-import study.myproject.service.MemberService;
+import study.myproject.service.member.MemberService;
 
 
 @RestController

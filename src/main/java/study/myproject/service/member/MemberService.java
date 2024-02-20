@@ -1,4 +1,4 @@
-package study.myproject.service;
+package study.myproject.service.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
