@@ -8,6 +8,7 @@ import study.myproject.domain.item.Item;
 @Entity
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {

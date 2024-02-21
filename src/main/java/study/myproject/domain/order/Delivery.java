@@ -7,6 +7,7 @@ import lombok.*;
 @Entity
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Delivery {
