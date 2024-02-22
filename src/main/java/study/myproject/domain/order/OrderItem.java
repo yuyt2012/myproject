@@ -30,4 +30,12 @@ public class OrderItem {
     private int orderPrice;
 
     private int orderQuantity;
+
+    public void cancel() {
+        getItem().addStockQuantity(orderQuantity);
+    }
+
+    public int getTotalPrice() {
+        return getOrderPrice() * getOrderQuantity();
+    }
 }

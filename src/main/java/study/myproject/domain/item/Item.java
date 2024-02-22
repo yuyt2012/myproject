@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import study.myproject.exception.NotEnoughStockException;
 
 @Entity
 @Builder
@@ -30,4 +31,16 @@ public abstract class Item {
     private int price;
 
     private int stockQuantity;
+
+    public void addStockQuantity(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStockQuantity(int quantity) {
+        int restStockQuantity = this.stockQuantity - quantity;
+        if (restStockQuantity < 0) {
+            throw new NotEnoughStockException();
+        }
+        this.stockQuantity = restStockQuantity;
+    }
 }
