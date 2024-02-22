@@ -31,6 +31,17 @@ public class OrderItem {
 
     private int orderQuantity;
 
+    public static OrderItem createOrderItem(Item item, int orderPrice, int orderQuantity) {
+        OrderItem orderItem = OrderItem.builder()
+                .item(item)
+                .orderPrice(orderPrice)
+                .orderQuantity(orderQuantity)
+                .build();
+
+        item.removeStockQuantity(orderQuantity);
+        return orderItem;
+    }
+
     public void cancel() {
         getItem().addStockQuantity(orderQuantity);
     }
