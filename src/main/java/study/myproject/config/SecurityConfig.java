@@ -45,9 +45,9 @@ public class SecurityConfig {
                         .accessDeniedHandler(jwtAccessDeniedHandler));
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/members/join", "/", "/members/login").permitAll()
-                        .requestMatchers("/members/find/**").authenticated()
-                        .requestMatchers("/members/findall").hasRole("ADMIN")
+                        .requestMatchers("/api/members/join", "/", "/api/members/login").permitAll()
+                        .requestMatchers("/api/members/find/**").authenticated()
+                        .requestMatchers("/api/members/findall").hasRole("ADMIN")
                         .anyRequest().authenticated());
         http
                 .sessionManagement((session) -> session

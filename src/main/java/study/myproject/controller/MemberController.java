@@ -26,7 +26,7 @@ public class MemberController {
     private final MemberService memberService;
 
     //회원 가입
-    @PostMapping("members/join")
+    @PostMapping("/api/members/join")
     public ResponseEntity<String> joinMember(@RequestBody @Valid MemberRegisterDTO memberRegisterDTO, BindingResult result) {
         try {
             if (result.hasErrors()) {
@@ -45,7 +45,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/members/login")
+    @PostMapping("/api/members/login")
     public ResponseEntity<JwtToken> login(@RequestBody LoginDTO loginDTO) {
         JwtToken login = memberService.login(loginDTO);
         HttpHeaders headers = new HttpHeaders();
@@ -53,7 +53,7 @@ public class MemberController {
         return new ResponseEntity<>(login, headers, HttpStatus.OK);
     }
 
-    @GetMapping("members/find/{loginId}")
+    @GetMapping("/api/members/find/{loginId}")
     public ResponseEntity<Object> findMemberByLoginId(@PathVariable String loginId) {
         try {
             MemberDTO findMember = memberService.findByLoginId(loginId);
@@ -64,7 +64,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("members/findall")
+    @GetMapping("/api/members/findall")
     public ResponseEntity<Object> findMemberAll(Pageable pageable) {
         try {
             Page<MemberDTO> findMembers = memberService.findAll(pageable);

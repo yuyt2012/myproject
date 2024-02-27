@@ -11,6 +11,7 @@ import study.myproject.exception.NotEnoughStockException;
 @Entity
 @Builder
 @Getter
+@Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
