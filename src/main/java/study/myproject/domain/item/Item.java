@@ -9,7 +9,6 @@ import java.util.List;
 import study.myproject.exception.NotEnoughStockException;
 
 @Entity
-@Builder
 @Getter
 @Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

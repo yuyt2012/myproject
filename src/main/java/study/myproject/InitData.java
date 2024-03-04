@@ -11,10 +11,14 @@ import study.myproject.domain.order.Delivery;
 import study.myproject.domain.order.Order;
 import study.myproject.domain.order.OrderItem;
 import study.myproject.repository.Item.ItemRepository;
+import study.myproject.service.item.ItemService;
 
 @Component
 @RequiredArgsConstructor
 public class InitData {
+
+    private final ItemService itemService;
+
     private final InitService initService;
 
     @PostConstruct
@@ -28,10 +32,7 @@ public class InitData {
     @RequiredArgsConstructor
     static class InitService {
 
-        private final ItemRepository itemRepository;
-
         public void dbInit1() {
-            Item book = new Book();
-            book.set
+            Item book = new Book("Jpa1",);
         }
 }
