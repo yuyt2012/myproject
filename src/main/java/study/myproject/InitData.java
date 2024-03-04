@@ -1,3 +1,4 @@
+/*
 package study.myproject;
 
 import jakarta.annotation.PostConstruct;
@@ -36,3 +37,4 @@ public class InitData {
             Item book = new Book("Jpa1",);
         }
 }
+*/
