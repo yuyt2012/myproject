@@ -11,11 +11,10 @@ import study.myproject.exception.NotEnoughStockException;
 @Entity
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DiscriminatorColumn(name = "dtype")
-public abstract class Item {
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +22,6 @@ public abstract class Item {
     private Long id;
 
     private String name;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "item")
-    private List<CategoryItem> categoryItems = new ArrayList<>();
 
     private int price;
 
